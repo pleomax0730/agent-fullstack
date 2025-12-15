@@ -42,6 +42,11 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {
+    ResizablePanelGroup,
+    ResizablePanel,
+    ResizableHandle,
+} from '@/components/ui/resizable';
 import type { FileUIPart } from 'ai';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
@@ -241,121 +246,166 @@ export default function ExtractionPage() {
     const isLoading = status === 'submitted' || status === 'streaming';
 
     return (
-        <div className="max-w-4xl mx-auto p-6 h-screen flex flex-col">
-            <header className="mb-6">
-                <h1 className="text-2xl font-semibold">Extraction Field Generator</h1>
-                <p className="text-muted-foreground">
-                    Upload a PDF or image to generate extraction fields, then refine through conversation.
+        <div className="h-screen flex flex-col">
+            <header className="p-4 border-b shrink-0">
+                <h1 className="text-xl font-semibold">欄位提取工具</h1>
+                <p className="text-sm text-muted-foreground">
+                    上傳文件，自動生成提取欄位，並透過對話調整
                 </p>
             </header>
 
-            <Conversation className="flex-1">
-                <ConversationContent>
-                    {messages.map((message) => (
-                        <div key={message.id}>
-                            {/* Render file attachments first */}
-                            {message.parts.some(part => part.type === 'file') && (
-                                <MessageAttachments>
-                                    {message.parts
-                                        .filter(part => part.type === 'file')
-                                        .map((part, i) => (
-                                            <MessageAttachment
-                                                key={`${message.id}-file-${i}`}
-                                                data={part as FileUIPart}
-                                            />
-                                        ))}
-                                </MessageAttachments>
-                            )}
+            <ResizablePanelGroup direction="horizontal" className="flex-1">
+                {/* Left Panel: Table Preview */}
+                <ResizablePanel defaultSize={65} minSize={30}>
+                    <div className="h-full p-4 overflow-auto">
+                        {currentSchema ? (
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <h2 className="text-lg font-medium">提取結果預覽</h2>
+                                    <span className="text-xs text-muted-foreground">
+                                        {currentSchema.fields.length} 個欄位
+                                    </span>
+                                </div>
+                                <SchemaTable schema={currentSchema} />
+                            </div>
+                        ) : (
+                            <div className="h-full flex items-center justify-center text-muted-foreground">
+                                <div className="text-center space-y-2">
+                                    <p className="text-lg">尚無提取結果</p>
+                                    <p className="text-sm">在右側上傳文件開始分析</p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </ResizablePanel>
 
-                            {message.parts.map((part, i) => {
-                                if (part.type === 'reasoning') {
-                                    return (
-                                        <Reasoning
-                                            key={`${message.id}-${i}`}
-                                            className="w-full"
-                                            isStreaming={
-                                                status === 'streaming' &&
-                                                i === message.parts.length - 1 &&
-                                                message.id === messages.at(-1)?.id
+                <ResizableHandle withHandle />
+
+                {/* Right Panel: Chat */}
+                <ResizablePanel defaultSize={35} minSize={25}>
+                    <div className="h-full flex flex-col">
+                        <Conversation className="flex-1">
+                            <ConversationContent>
+                                {messages.map((message) => (
+                                    <div key={message.id}>
+                                        {/* Render file attachments first */}
+                                        {message.parts.some(part => part.type === 'file') && (
+                                            <MessageAttachments>
+                                                {message.parts
+                                                    .filter(part => part.type === 'file')
+                                                    .map((part, i) => (
+                                                        <MessageAttachment
+                                                            key={`${message.id}-file-${i}`}
+                                                            data={part as FileUIPart}
+                                                        />
+                                                    ))}
+                                            </MessageAttachments>
+                                        )}
+
+                                        {message.parts.map((part, i) => {
+                                            if (part.type === 'reasoning') {
+                                                return (
+                                                    <Reasoning
+                                                        key={`${message.id}-${i}`}
+                                                        className="w-full"
+                                                        isStreaming={
+                                                            status === 'streaming' &&
+                                                            i === message.parts.length - 1 &&
+                                                            message.id === messages.at(-1)?.id
+                                                        }
+                                                    >
+                                                        <ReasoningTrigger />
+                                                        <ReasoningContent>{part.text}</ReasoningContent>
+                                                    </Reasoning>
+                                                );
                                             }
-                                        >
-                                            <ReasoningTrigger />
-                                            <ReasoningContent>{part.text}</ReasoningContent>
-                                        </Reasoning>
-                                    );
-                                }
 
-                                if (part.type === 'text') {
-                                    const schema = tryParseSchema(part.text);
+                                            if (part.type === 'text') {
+                                                const schema = tryParseSchema(part.text);
 
-                                    if (schema && message.role === 'assistant') {
-                                        return (
-                                            <Message key={`${message.id}-${i}`} from={message.role}>
-                                                <MessageContent>
-                                                    <SchemaTable schema={schema} />
-                                                </MessageContent>
-                                            </Message>
-                                        );
-                                    }
+                                                // Don't render schema in chat - it's shown in the left panel
+                                                if (schema && message.role === 'assistant') {
+                                                    return (
+                                                        <Message key={`${message.id}-${i}`} from={message.role}>
+                                                            <MessageContent>
+                                                                <p className="text-sm text-muted-foreground">
+                                                                    ✅ 已更新左側提取結果
+                                                                </p>
+                                                            </MessageContent>
+                                                        </Message>
+                                                    );
+                                                }
 
-                                    return (
-                                        <Message key={`${message.id}-${i}`} from={message.role}>
-                                            <MessageContent>
-                                                <MessageResponse>{part.text}</MessageResponse>
-                                            </MessageContent>
-                                        </Message>
-                                    );
-                                }
+                                                return (
+                                                    <Message key={`${message.id}-${i}`} from={message.role}>
+                                                        <MessageContent>
+                                                            <MessageResponse>{part.text}</MessageResponse>
+                                                        </MessageContent>
+                                                    </Message>
+                                                );
+                                            }
 
-                                // Skip file parts as they're rendered separately above
-                                if (part.type === 'file') {
-                                    return null;
-                                }
+                                            if (part.type === 'file') {
+                                                return null;
+                                            }
 
-                                return null;
-                            })}
+                                            return null;
+                                        })}
 
-                            {/* Show skeleton if assistant is thinking/streaming but hasn't produced text yet */}
-                            {message.role === 'assistant' &&
-                                status === 'streaming' &&
-                                !message.parts.some(part => part.type === 'text') && (
-                                    <SchemaTableSkeleton />
+                                        {/* Show skeleton if assistant is thinking/streaming but hasn't produced text yet */}
+                                        {message.role === 'assistant' &&
+                                            status === 'streaming' &&
+                                            !message.parts.some(part => part.type === 'text') && (
+                                                <div className="flex items-center gap-2 text-sm text-muted-foreground p-4">
+                                                    <Loader size={14} />
+                                                    <Shimmer duration={1.5}>正在分析文件...</Shimmer>
+                                                </div>
+                                            )}
+                                    </div>
+                                ))}
+                                {status === 'submitted' && (
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground p-4">
+                                        <Loader size={14} />
+                                        <Shimmer duration={1.5}>正在分析文件...</Shimmer>
+                                    </div>
                                 )}
-                        </div>
-                    ))}
-                    {status === 'submitted' && <SchemaTableSkeleton />}
-                </ConversationContent>
-                <ConversationScrollButton />
-            </Conversation>
+                            </ConversationContent>
+                            <ConversationScrollButton />
+                        </Conversation>
 
-            <PromptInput onSubmit={handleSubmit} accept="application/pdf,image/*" className="mt-4">
-                <PromptInputAttachments>
-                    {(attachment) => <PromptInputAttachment data={attachment} />}
-                </PromptInputAttachments>
-                <PromptInputBody>
-                    <PromptInputTextarea
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        placeholder={
-                            currentSchema
-                                ? 'Describe changes (e.g., "add invoice_number field", "remove address")'
-                                : 'Upload a document to analyze...'
-                        }
-                        disabled={isLoading}
-                    />
-                </PromptInputBody>
-                <PromptInputFooter>
-                    <PromptInputTools>
-                        <PromptInputActionMenu>
-                            <PromptInputActionMenuTrigger />
-                            <PromptInputActionMenuContent>
-                                <PromptInputActionAddAttachments label="Upload PDF or Image" />
-                            </PromptInputActionMenuContent>
-                        </PromptInputActionMenu>
-                    </PromptInputTools>
-                    <PromptInputSubmit disabled={isLoading} status={status} />
-                </PromptInputFooter>
-            </PromptInput>
+                        <div className="p-4 border-t shrink-0">
+                            <PromptInput onSubmit={handleSubmit} accept="application/pdf,image/*">
+                                <PromptInputAttachments>
+                                    {(attachment) => <PromptInputAttachment data={attachment} />}
+                                </PromptInputAttachments>
+                                <PromptInputBody>
+                                    <PromptInputTextarea
+                                        value={input}
+                                        onChange={(e) => setInput(e.target.value)}
+                                        placeholder={
+                                            currentSchema
+                                                ? '描述修改 (例如：「新增發票號碼欄位」、「移除地址」)'
+                                                : '上傳文件開始分析...'
+                                        }
+                                        disabled={isLoading}
+                                    />
+                                </PromptInputBody>
+                                <PromptInputFooter>
+                                    <PromptInputTools>
+                                        <PromptInputActionMenu>
+                                            <PromptInputActionMenuTrigger />
+                                            <PromptInputActionMenuContent>
+                                                <PromptInputActionAddAttachments label="上傳 PDF 或圖片" />
+                                            </PromptInputActionMenuContent>
+                                        </PromptInputActionMenu>
+                                    </PromptInputTools>
+                                    <PromptInputSubmit disabled={isLoading} status={status} />
+                                </PromptInputFooter>
+                            </PromptInput>
+                        </div>
+                    </div>
+                </ResizablePanel>
+            </ResizablePanelGroup>
         </div>
     );
 }
