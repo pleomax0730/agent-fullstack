@@ -31,7 +31,7 @@ load_dotenv()
 # -----------------------------------------------------------------------------
 
 CREDENTIALS_FILE = "service_account.json"
-LLM_MODEL = "gemini-2.5-flash"  # Supports thinking
+LLM_MODEL = "gemini-3-pro-preview"  # Supports thinking
 
 SYSTEM_INSTRUCTION = """You are an expert data extraction agent specialized in analyzing documents (PDFs or images).
 Your task is to identify key information, define a schema, and extract the actual values from the document.
@@ -152,6 +152,7 @@ def get_extraction_llm(include_thoughts: bool = True) -> ChatGoogleGenerativeAI:
             project=creds["project_id"],
             location="global",
             include_thoughts=include_thoughts,
+            thinking_level="low",
             temperature=1.0,
         )
     return _extraction_llm

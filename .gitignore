@@ -41,3 +41,4 @@ npm-debug.log*
 
 # Build outputs
 *.tsbuildinfo
+ngrok.yml
