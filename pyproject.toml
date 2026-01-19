@@ -7,7 +7,15 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.124.2",
     "langchain-google-genai>=4.0.0",
-    "llama-index-llms-google-genai>=0.8.0",
+    "langfuse>=3.0.0",
+    "litellm>=1.80.11",
+    "llama-index-llms-google-genai==0.8.3",
+    "llama-index-llms-openai==0.6.12",
+    "llama-index-workflows>=2.11.6",
+    "openinference-instrumentation-llama-index>=4.3.9",
+    "opentelemetry-api>=1.39.1",
+    "opentelemetry-exporter-otlp>=1.39.1",
+    "opentelemetry-sdk>=1.39.1",
     "python-dotenv>=1.2.1",
     "rich>=14.2.0",
 ]
