@@ -1,0 +1,76 @@
+[
+  {
+    "index": 0,
+    "message": {
+      "role": "user",
+      "content": "Check flight AA100. Then, switch models to book a taxi."
+    }
+  },
+  {
+    "index": 1,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Defining User Intents Clearly**\n\nI'm currently focused on dissecting the user's initial request. I've pinpointed the intent behind \"Check flight AA100,\" seeing it as a straightforward need for flight status information. The tool `check_flight` fits perfectly here. However, I'm now turning my attention to the shift requested, recognizing the explicit need to transition to a new model for taxi booking.\n\n\n",
+      "tool_calls": [
+        {
+          "id": "call_5a16310342b34cde9bfa5a0b23af",
+          "type": "function",
+          "function": {
+            "arguments": "{\"flight\": \"AA100\"}",
+            "name": "check_flight"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CoEEAY89a1+Q91OIGtspmCejqZ3GqgPSEyVMt5gY2fulach8UrfyN8061I93dwznTd9BFJwxCIe2XSUKUmbs51swEX50neAewCiIA7XrJHfJnRHrlNligw6fubqg8D82Jp+W5Ed5hr/UFpImneU7xE+TaqIz9gJzdhXnhVJ0wSqItSnLFXvgpxLczHlDqp3utT8TCFHfPluwsiTIE/b0+HBIaPMrxAb12KBBzAEMAI+WzdBbf1K3GinEFQ61yIrEaE94z8aOyGaEqqjYboCqAazYlHhe9CwlAC3+ojFEUGwaPnReOs49gYDKc3UCKLPIR5pwq3HBuB9wRhYZpCsAi0cFdvHFaEV466QbNcPERtK0VN6ZRg3hcYjTR4NS9H9uTIl/5YjOYFI6dMQGGwAdkaPLN3Ycg5IV0A4Gkf20EGhMKSgPyf38DEwYnWsyJhy4ZFYBU8aZYG5xPpUDRJdbcxpkouI+CUuhTn6GOkLyV6SpBl2bqYclFgydHVaa8emBd6PBqPHFKllX8Gw4OIBHgN/8ZXfMoKsChBM2qZsSa2bjaU4yaW9/y4dEx9OR0o6z+kzXK5tOGthgfcUzvidojM+7NZQAl6r2K3j+FujgFPAfFzXdqlwjaEl7c2WYct8nCYPBZb9cXBCIjX4wS41h2rzCI9ytHgR3yFODjTpjWllQolZg"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 2,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_5a16310342b34cde9bfa5a0b23af",
+      "content": "{\"flight\": \"AA100\", \"status\": \"delayed\"}"
+    }
+  },
+  {
+    "index": 3,
+    "message": {
+      "role": "assistant",
+      "tool_calls": [
+        {
+          "id": "call_WGtnDJixlV82j9bAn6C2UfC6",
+          "type": "function",
+          "function": {
+            "arguments": "{\"time\":\"10 AM\",\"location\":\"airport\"}",
+            "name": "book_taxi"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 4,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_WGtnDJixlV82j9bAn6C2UfC6",
+      "content": "{\"booking_status\": \"success\", \"pickup_time\": \"10 AM\", \"location\": \"airport\"}"
+    }
+  },
+  {
+    "index": 5,
+    "message": {
+      "role": "user",
+      "content": "Great! What time should I leave home to catch my taxi?"
+    }
+  },
+  {
+    "index": 6,
+    "message": {
+      "role": "assistant",
+      "content": "I don't have access to your location or traffic data to tell you exactly when to leave. However, since your taxi is booked for 10 AM, you should plan to be ready by then",
+      "reasoning_content": "**Investigating Departure Logistics**\n\nI'm currently trying to assess the utility of available tools in addressing the user's travel time query. My initial assessment reveals limitations. Neither flight status nor taxi booking provides the necessary location or distance data. This is becoming a challenge. I need to consider alternative approaches.\n\n\n"
+    }
+  }
+]

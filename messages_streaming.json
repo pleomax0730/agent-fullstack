@@ -1,0 +1,65 @@
+[
+  {
+    "index": 0,
+    "message": {
+      "role": "user",
+      "content": "Check flight AA100 and book a taxi 2 hours before if delayed."
+    }
+  },
+  {
+    "index": 1,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Examining the User's Intent**\n\nI'm focused on grasping the user's combined request: checking flight status (AA100) and scheduling a taxi. My initial step is to isolate and define these two distinct needs. The challenge is connecting the flight status check to the taxi booking, particularly the '2 hours before if delayed' condition.\n\n\n**Deconstructing the User's Query**\n\nI'm now breaking down the request into discrete tasks. The flight status check for AA100 is straightforward. The complexity lies in triggering the taxi booking only if the flight is delayed and determining the booking time relative to the delay. I need to figure out how to work around the timing constraint, i.e., \"2 hours before.\"\n\n\n",
+      "tool_calls": [
+        {
+          "id": "call_3d494d412a9446be9652594b7b06",
+          "type": "function",
+          "function": {
+            "arguments": "{\"flight\": \"AA100\"}",
+            "name": "check_flight"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CiUBjz1rX8K0ZwGBXWQht0QsCaO3c15MhcktT7XPvP3SWcIJ5gGqCmIBjz1rX1rHDReWqWqKG1HxRoHaqhwe0QoJeDEBcH45eNTV0z/xXnhxGDn8307PWYf/axeVMgulxQ2Br7+h/0WTrmHCjizMk/w3VNlfeAGboopHgwHlGLGa4Va7Zos/WKXd5gpXAY89a18bOaxWBoFXcF3ctrKSRnzGkwoz/BOtcNK6fbLrT9YZouDUoWkNUjiOO7ukQlgZlVlj/GvkGDLK+wLdwbJn1pjZ7jBXD8bTMSmXsW6MDg5D1d5DCoYBAY89a1/p2NNmJ98dYoDhHoz7ZzAGpS17f1CD8STV/g6+Wbi1xF8QdG3y8FqKAvdUJ4iYiyysYUpCIZ1qrkSegnhd5ljXqN2sXvfkGtj/G7dMAIhor9QaoilDg+mDalW5VvhP2f9lTm6+e27KB5L90HLK1vCpocjsfYBf0NmKPBy/mRT/3TsKmgEBjz1rX1YYAqiMvkMxHGJAevW7z975SLl+/AY5vmQQGeG+36/sIIlPADpf1NPjqDrz5cR6vvLvMyDza3ZNyw0LsCkMoRUnLQJy7fFBcPSeZcJMZx2JimDJ2VaTzbTuXMaPQAQNexjT6H0NQfGELesYEEev55r/GFkXToB7Si96txlRdHgbXp4902w3crBlNzlQ02yiJoHzAcfICoQBAY89a1+iO08EHmsaUN4K2JKfjbWvjr4e1nK1R7bjsosg1IjR5jUqtICfhtuc4mPy+j93uLMLY7PX3gVMBIhmvL4wnd3gS917hyxywSvPSKu66r8EowGGT9Q1UntLM8AqsW8tj+/B5offvXwi22RIX1xiq2FC9jXdzOFGu+c5XINnQAxq"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 2,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_3d494d412a9446be9652594b7b06",
+      "content": "{\"flight\": \"AA100\", \"status\": \"delayed\", \"departure_time\": \"12 PM\"}"
+    }
+  },
+  {
+    "index": 3,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Scheduling a Taxi**\n\nI've determined the optimal booking time for the taxi. Considering the flight delay to 12 PM and the user's two-hour lead time request, I've calculated the required pickup time. I'll utilize the `book_taxi` tool, setting the time to 10 AM. I need more information to specify the location.\n\n\n**Finalizing Taxi Details**\n\nI'm solidifying the taxi booking. The focus is to execute the call to the `book_taxi` tool. I've confirmed that 10 AM is the correct pickup time, considering the 12 PM flight departure and the user's lead time. I'll pass only the time to the `book_taxi` tool, as the location default setting of \"airport\" is a reasonable assumption in this context and no location was specified.\n\n\n",
+      "tool_calls": [
+        {
+          "id": "call_1e7c0b9517514f1f81f12cae33ef",
+          "type": "function",
+          "function": {
+            "arguments": "{\"time\": \"10 AM\"}",
+            "name": "book_taxi"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CisBjz1rX3jYmTlHY6zOC+Jx5cEpcj18h8ndhzUazvmDE1mJ22UaOi5Qp77hCmIBjz1rX7M64jNI1m7cGSh3aykmAod+6fwmspNcYgOUuoOb4STiy6la8g7GrbjRFX3umF1u4SgvnpBPiWj7sNZF88E8gdQFdZ5QhMAHYSM1xN0g7KkTX3Fhdp/jgpze3AwuwQpTAY89a18uhUt9w/6sGIqADle2pTKM2v7zRi3BycmOqTBFahthqvY1C7IgS9SqUQbRliVyfe6nPgEtNcOCaQfAyjwR+H36LjDP1SO5araCN+RtynsKgwEBjz1rXwlGYoMCFJlS5CRQRy84YWaXhgSUrRFbFfwQFv4qZDXQEPCsO23so1NhJsdz31FUYSqoQfAdzT2N3XXBVkg5h3HDe/5CQ63k7frrqwiKexBT/w0BwUYADbrisVAAQ1TOh37uAjN6J0VQQT1yd48fecbPasauZuE3xDG2F89k7QrNAQGPPWtfPT/L2mKyiKBElzaV4LLcFCwqII1iei47+lHE3Y9kpieepbwuGJoSKWEUuW0i+8b5OkuARLHujf8D9xBExmMY2arsYQtPE+k/fklDYW0bA2Ie3LUwj7OF41AneaCsaWgteRMswok0wU/5LNviSNDgYB10D1bGlW9iOaL68muklHisJBFs2jYa4x3BAJ5k/7NT8WqpjoeW08VQJyYBfKV/rp+yurkhJJHdo6ZwQrgGp+ZBYvW9d7k4rKNV20b8OVrloRBS+poUjHkK6gEBjz1rX1HdPK8kOQfnCxUL0JlIw46SdzS7GWHYaFz6Q8wzTlDQu5EOgqJ2RvQnLKMljyHegKUw7Pl/r5o8ypxWhJbZm+nVv2zCZzBJJM3P8EshHGv4zBFFfSRtxeDYDDyTIyozfj97RR1iXc8DWhIBunkkTndbPuPr3XHCbo/CNE1ED0A5gZ/0Jxj4YgpvZsjKHibqeeh5WqcjBbjR5DpBeY++NXduE//V1x5YhvBhRfLO4X4Zxczp/TYuW9GCCxQFwIfq0f3iiD+o4lndnuUvjeP/xwznV1AEZ9lDdhjs3AvFA5dj7cZ0Gew="
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 4,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_1e7c0b9517514f1f81f12cae33ef",
+      "content": "{\"booking_status\": \"success\", \"pickup_time\": \"10 AM\", \"location\": \"airport\"}"
+    }
+  }
+]
