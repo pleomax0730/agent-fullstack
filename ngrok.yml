@@ -1,0 +1,10 @@
+version: "2"
+authtoken: "2QGfOgLm8i6R6NnNikHfws4mecN_6odwN3KZLzxHmws7yRUQJ"  # 從 https://dashboard.ngrok.com/get-started/your-authtoken 取得
+
+tunnels:
+  frontend:
+    addr: 3000
+    proto: http
+  backend:
+    addr: 8000
+    proto: http

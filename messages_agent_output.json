@@ -1,0 +1,52 @@
+[
+  {
+    "index": 0,
+    "message": {
+      "role": "user",
+      "content": "Check flight AA100"
+    }
+  },
+  {
+    "index": 1,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Examining Potential Tools**\n\nI'm evaluating the available tools to address the user's request. The `check_flight` tool appears directly relevant. It accepts a flight number as a string input, and the provided flight number is \"AA100\". I am going to try the `check_flight` tool.\n\n\n\n\n**Determining the Appropriate Action**\n\nI've determined that `check_flight` is the optimal tool. The input parameter, `flight`, is a string, and the user's flight number, \"AA100\", fits this format. My next step will be to use the tool, supplying the flight number as the argument. The other tools seem useless.\n\n\n",
+      "tool_calls": [
+        {
+          "id": "check_flight",
+          "type": "function",
+          "function": {
+            "name": "check_flight",
+            "arguments": "{\"flight\": \"AA100\"}"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CiQBjz1rX2OCo1oPTkIZw6AFnb/txCyD8H+gAM7Wow4pgIslI88KXwGPPWtfyXrlerKQSdct9A9rujZ6g60GoudZuF3kEpc7k/uWi6RY2vNA8SHwP7TKd0nRn9F36ERs+32NhCMTIaeE+s+ALTlZjOVmdRALwj6i9/u0AP6itbvlMendRcFqCm4Bjz1rX8u3uY82buD4G0cFOT09CHAeLcXzBsyNLZizplW/Z5E+8v4okQ3YQrnIAwr23GM9Gq/vqW6TzpNXW3E6slRw0TBPly4e55YH7ivUyi7aBKkSENo1uNFkhEsmle6+n7cICBiyR97+5M7seQqnAQGPPWtfVFz+eNUvYbOssxj+6WxF7f5PZYkqarhk/CzRnqXEswHFXI9PKQi7qp02Z7Gd58xFosbWbyVSux5VZVfxoVL9fkDA2wQ1wypuQjCVqtId70V6/jJQe0bOt/QXeDi5D/1UDA0zyXZO7/64PS43xyNzm6WQLeFNkQ2FLOYRXNwn+DJhlHn7AeT8rpefmwDy2SQKEZFKxDRhpJNTrVLpbE1HyviKCowBAY89a18HvuP9Yog/nNfc6S1ZX+U6U9xprhF4NVvOU0BdQiC6mE3RiQ0SxOwwpsAmHWi8SEVrqPll2wU6i3kD3jo1vNrucF7JpN6HywExq23JOZpDedbBO5gJp/aYZaF2UC+zp1dQF4eDu6YTmmNpTHlY4dzBCZXMyYgSk2DVo5hY45uAAxu75N/Z2xsKUgGPPWtfkHifPqjRTgi6f/qCzH24c/guEt53NE+Te0KsoTagloQB3bCRK5KrL9YGG6ddImlIZk5ew4nyr03UNKVlPgSC3gQcPgNvjgMdEYWExFM="
+          }
+        }
+      ],
+      "thought_signatures": [
+        "None",
+        "None",
+        "CiQBjz1rX2OCo1oPTkIZw6AFnb/txCyD8H+gAM7Wow4pgIslI88KXwGPPWtfyXrlerKQSdct9A9rujZ6g60GoudZuF3kEpc7k/uWi6RY2vNA8SHwP7TKd0nRn9F36ERs+32NhCMTIaeE+s+ALTlZjOVmdRALwj6i9/u0AP6itbvlMendRcFqCm4Bjz1rX8u3uY82buD4G0cFOT09CHAeLcXzBsyNLZizplW/Z5E+8v4okQ3YQrnIAwr23GM9Gq/vqW6TzpNXW3E6slRw0TBPly4e55YH7ivUyi7aBKkSENo1uNFkhEsmle6+n7cICBiyR97+5M7seQqnAQGPPWtfVFz+eNUvYbOssxj+6WxF7f5PZYkqarhk/CzRnqXEswHFXI9PKQi7qp02Z7Gd58xFosbWbyVSux5VZVfxoVL9fkDA2wQ1wypuQjCVqtId70V6/jJQe0bOt/QXeDi5D/1UDA0zyXZO7/64PS43xyNzm6WQLeFNkQ2FLOYRXNwn+DJhlHn7AeT8rpefmwDy2SQKEZFKxDRhpJNTrVLpbE1HyviKCowBAY89a18HvuP9Yog/nNfc6S1ZX+U6U9xprhF4NVvOU0BdQiC6mE3RiQ0SxOwwpsAmHWi8SEVrqPll2wU6i3kD3jo1vNrucF7JpN6HywExq23JOZpDedbBO5gJp/aYZaF2UC+zp1dQF4eDu6YTmmNpTHlY4dzBCZXMyYgSk2DVo5hY45uAAxu75N/Z2xsKUgGPPWtfkHifPqjRTgi6f/qCzH24c/guEt53NE+Te0KsoTagloQB3bCRK5KrL9YGG6ddImlIZk5ew4nyr03UNKVlPgSC3gQcPgNvjgMdEYWExFM="
+      ]
+    }
+  },
+  {
+    "index": 2,
+    "message": {
+      "role": "tool",
+      "content": "{\"flight\": \"AA100\", \"status\": \"delayed\", \"departure\": \"12 PM\"}",
+      "tool_call_id": "check_flight"
+    }
+  },
+  {
+    "index": 3,
+    "message": {
+      "role": "assistant",
+      "content": "The status of flight AA100 is delayed. It is scheduled to depart at 12 PM.",
+      "thought_signatures": [
+        "None"
+      ]
+    }
+  }
+]

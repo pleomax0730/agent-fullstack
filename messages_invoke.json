@@ -1,0 +1,65 @@
+[
+  {
+    "index": 0,
+    "message": {
+      "role": "user",
+      "content": "Check flight AA100 and book a taxi 2 hours before if delayed."
+    }
+  },
+  {
+    "index": 1,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Evaluating the Flight**\n\nI've started by thinking about how to get the flight status. Using the `check_flight` tool seems the best approach for this. I now realize the next step is conditional. I can't book the taxi until I know if the flight is delayed, which means I need to use the response from `check_flight` to determine the next action.\n\n\n",
+      "tool_calls": [
+        {
+          "id": "call_4115a5e8be5146f7a46e8a60032c",
+          "type": "function",
+          "function": {
+            "arguments": "{\"flight\": \"AA100\"}",
+            "name": "check_flight"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CusDAY89a18+8SHmpOvt1eqOYaLXH1hidaFrxw2cFFhcw8o8hb75/sdxY9xZ3R1Ki/pb6Zwg3hWvwgcvS3nXyZpYBIKmIO8KC+E4L9YLCvXBSG74+iJtMf5vm8NYNszjHB8PicYTEeDg/EGE6RCdPoqSEznM45W5VOEl9ACE5NVZGcXGX1gvIevELyEy110B+nJ7yT5VHF2Ur2DMBe20YcNh2FIBGDz+HwQ172DepZS87BdQ90XuJ7A/CHgQiu0HneGI6c2HH79XPM4kLkaq5ZB6o0nHZ4fqrlhmal9sBAxkp7VW3LAQHEPzf5FUFGjX30pszoMDW3X6+atAhHoq/Pi7xyLQbx3UgbmgL2CXwy9XKv3CkofRbFmQOgIF60FGDngDz5dijv4+UPHhsfk/0ArOr13mwBgMWVCzlwQWqldLXSKIGcud6sTeVoELJfADZCn1z4d3+4RBU1d3eXIhtXSqGm35HqWcmkPHVhVGpjZNwtcgjZIpW/iY+C9QstOCSCTiZ48AhytsPJFHd6+t9r5rUF/E2wlrylouw0Ued6TAsnCy07R4pf6s9Wih3qI4LMOKO6xOHLWCHAWqQsy24ADIINaA4/x0Nl0Yi6Q96sH8snZdAI5UnfLev6iS7nJ0eb+7QdAX6Jmj60+mmHQ="
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 2,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_4115a5e8be5146f7a46e8a60032c",
+      "content": "{\"flight\": \"AA100\", \"status\": \"delayed\", \"departure_time\": \"12 PM\"}"
+    }
+  },
+  {
+    "index": 3,
+    "message": {
+      "role": "assistant",
+      "reasoning_content": "**Assessing Taxi Bookings**\n\nI've determined that the flight is delayed, satisfying the condition for booking a taxi. The flight's departure is scheduled for 12 PM, thus the required pickup time is 10 AM. Considering the `book_taxi` tool, I'll provide `time='10 AM'`, as the `location` is optional, though a pickup location would be ideal. I'll proceed with just the time to avoid potential errors.\n\n\n",
+      "tool_calls": [
+        {
+          "id": "call_8fdc6ae428554fa5a880d08349ee",
+          "type": "function",
+          "function": {
+            "arguments": "{\"time\": \"10 AM\"}",
+            "name": "book_taxi"
+          },
+          "provider_specific_fields": {
+            "thought_signature": "CtsKAY89a18nrg9TnO2ywIWH3Lea8euZLy7Y7AoiOAib+frjHc1fa+q/wwP1vHuxn/Aq6eGLD5jR6DfToeGhuyNKdwX4WR/QU3oTJH8s88GyR7x19qXS3XFaJgnrXwvsuDNyngOiCREsKOJ+8O+I4WPuN1eDE5ydWZLfLOy+8HEfpLc4uVj6irowOMKXUm6cxkFAuojdni+iQGN+hXjIGFFbOWhToaOtn4JnuJiF5BiNB13XCaUAd6Kfmc+grOaPgRos6CCt2M2EXAokhzGJJ7+/Dzw2lyw6CnHsxNePBGNnB4GGDx6W/EoQ4Z1mOMYlcGlIZGJl7fwWiucPa2cJyGZVHoZfH15thTx3YMprgsVjYNyKhg/HLxqD6lAbhHHB4AbfMw4IK9UTmrU4ZrrSWWNvch4UQ0/1AD8k/ndsgVSXKyOX36KHdGgewmw+fsAfLqdcWqvVNdmdsRfbA0AX2lt+Di1eAp5Md+JozU5E7gDSTjHxizXLOEA5xBu2jnhdMy9MdzwhZSm75ehswJruS+tMqmMACYJR3ItHUan11k+w6EXeXOnXz2MIWyDJJ3C4m9TYEpi3xrYQyK1z23jkG+XU81mzpKaoy8H9IQo0Gmygx7H7bPRtrdEqLZOLccEMrZJ5RxmmJonnBkktnmYCkoXFXaFHCca92zBrw63wenwQwLctOvoGZWisNEB95KUISecMWGxHV1vls9MrWtnSWF8xC9msx0+yVqseBt/sYiRdFoQw0A4qCYJzXhtcSsyJwSKyAl5mEOzAGK51cHcdR99lovJ2jAsOyEbQ+0HMcQUJ6Ukfgvgjs6cn2BTWGW3L24pm4XuLmlxwx/KoMfb2ZBlSG0Go4WDikLuE9qGebBqTKPMN+zVKawYIcUrEVLIpIElF6bn8MbwGne2ASwhg4FuPyL8GAju5LiWsTturvT9Z4w/eHjVvR9fD5taK2Jk6L2ivHcPNsB1kCRkcVjQYdJY7xlN8noYa6J4mwEP0cDfKHWsgevjSRDcuYPaV0AYuaBs7uPfafFO9cM4tV8yLoN0xk+dh5n2/njqHRhyeVstPYhkg8ak/q6z47iBni+qANmN+iZmVVtuHy9k55YMr411EknX2Bxb9sj6bQttwhDP7CQ2gaq2YKeqGsu8ohryZmgW2y6hazWLpcPDvShbJVLP0RIGWH80I+DPnHc4eE0AULMPtLz3S0d8alOa4E4yN6tPVZKZr3wQFwANA44VOeqyTuQQLuZzGa9CHYGMSet5UTxyJmugOPRbYdIJ6Ya21jjwY+zUjEU3Ra25knx23uXpn/5c2eaY0WAmTZAKFIU8Wl1X/gTG51f9b+7qKO13oVZSNdjAzjMOx4xiUvimFISBu+hsemi5+gWMxg+kfOqfeyjR/STJ60odTQ/YiK7LWPH8BO2ls8ofWQLpr5zDq9m2EPqr1n65GX3ErJJotwt9213EudEzAX5NKtYLCIL80cc9kB6NeGEzM4HvYggKStvWGfs/4S3u6XHSf0+hvqEXzGdRZCBovMyZ4S3DKk28jWbuHHwn0sLrWTgHfiKpnOF9g1P4OttrfL2O0bjx/qYR6vZY7EY7A+e6ELceyVSjFoAGk9f22blwrKjRXdEY72xb9o53VHC7Hi9ULlPGNxfoco4LISLzwHtM4dLxk4bah9klbKtnt7SPTPe13IqL78HvYvsmYaVIMQgSFqNKcLAUsKzQemzeOGXKbmCiI5PQS2HGglmyNs5pTVi/at6rN0YRhiPWN9w19VwenAmVL9xeb7lurT25MjwCOCDmgSm+7h4OH2H/rRSryktP0ZkHJvYMbKR01qeUv8W6duF1W"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "index": 4,
+    "message": {
+      "role": "tool",
+      "tool_call_id": "call_8fdc6ae428554fa5a880d08349ee",
+      "content": "{\"booking_status\": \"success\", \"pickup_time\": \"10 AM\", \"location\": \"airport\"}"
+    }
+  }
+]
