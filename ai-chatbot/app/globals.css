@@ -142,3 +142,10 @@
   animation: shimmer 1.5s ease-in-out infinite;
   opacity: 0.3;
 }
+
+/* Smoother text rendering */
+.smooth-text {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}

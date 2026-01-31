@@ -1,5 +1,0 @@
-gemini-3-pro-preview (low): Init Call: ✅, Auto-Retry?: ❌, Asks User?: ✅, Reasoning Mention 9 AM?: ❌
-gemini-3-flash-preview (high): Init Call: ✅, Auto-Retry?: ❌, Asks User?: ✅, Reasoning Mention 9 AM?: ✅
-gemini-3-flash-preview (medium): Init Call: ✅, Auto-Retry?: ❌, Asks User?: ✅, Reasoning Mention 9 AM?: ✅
-gemini-3-flash-preview (low): Init Call: ✅, Auto-Retry?: ❌, Asks User?: ✅, Reasoning Mention 9 AM?: ❌
-gemini-3-flash-preview (minimal): Init Call: ✅, Auto-Retry?: ❌, Asks User?: ✅, Reasoning Mention 9 AM?: ❌
